@@ -10,4 +10,5 @@ data class MovieUiModel (
     val posterUrl: String?,
     val releaseDate: String,
     val title: String,
+    val isFavorite: Boolean
 )

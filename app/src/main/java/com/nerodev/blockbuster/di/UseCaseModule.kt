@@ -2,7 +2,9 @@ package com.nerodev.blockbuster.di
 
 import com.nerodev.blockbuster.domain.repository.MovieRepository
 import com.nerodev.blockbuster.domain.usecase.AddFavoriteMoviesUseCase
+import com.nerodev.blockbuster.domain.usecase.DeleteMoviesFromFavoritesUseCase
 import com.nerodev.blockbuster.domain.usecase.GetFavoritesMoviesUseCase
+import com.nerodev.blockbuster.domain.usecase.GetMovieDetailsUseCase
 import com.nerodev.blockbuster.domain.usecase.GetPopularMoviesUseCase
 import com.nerodev.blockbuster.domain.usecase.GetSearchMoviesUseCase
 import dagger.Module
@@ -34,4 +36,14 @@ object UseCaseModule {
         return GetFavoritesMoviesUseCase(repository)
     }
 
+    @Provides
+    fun provideDeleteFavoriteMoviesUseCase(repository: MovieRepository): DeleteMoviesFromFavoritesUseCase {
+        return DeleteMoviesFromFavoritesUseCase(repository)
+
+    }
+
+    @Provides
+    fun provideGetMovieDetailsUseCase(repository: MovieRepository): GetMovieDetailsUseCase {
+        return GetMovieDetailsUseCase(repository)
+    }
 }

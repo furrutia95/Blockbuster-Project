@@ -1,7 +1,5 @@
 package com.nerodev.blockbuster.domain.model
 
-import com.squareup.moshi.Json
-
 data class Movie(
     val adult: Boolean?,
     val backdropUrl: String?,
@@ -12,5 +10,6 @@ data class Movie(
     val posterUrl: String?,
     val releaseDate: String,
     val title: String,
+    val isFavorite: Boolean = false,
 
 )

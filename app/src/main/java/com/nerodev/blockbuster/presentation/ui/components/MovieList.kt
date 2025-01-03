@@ -1,4 +1,4 @@
-package com.nerodev.blockbuster.presentation.ui
+package com.nerodev.blockbuster.presentation.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.grid.GridCells

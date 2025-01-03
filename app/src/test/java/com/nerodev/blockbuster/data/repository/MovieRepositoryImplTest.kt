@@ -1,7 +1,6 @@
 package com.nerodev.blockbuster.data.repository
 
 import com.nerodev.blockbuster.data.local.dao.MovieDao
-import com.nerodev.blockbuster.data.local.entities.MovieEntity
 import com.nerodev.blockbuster.data.local.mapper.MovieMapperLocal
 import com.nerodev.blockbuster.domain.model.Movie
 import io.mockk.MockKAnnotations
@@ -50,5 +49,27 @@ class MovieRepositoryImplTest {
 
     }
 
+    @Test
+    fun `deleteMovieFromFavorites should call movieDao deleteMovie`(): Unit = runBlocking{
+        val domainMovie = Movie(
+            id = 1,
+            title = "Example Task",
+            adult = false,
+            overview = "This is an example task",
+            backdropUrl = "example_backdrop.jpg",
+            originalTitle = "Example Title",
+            releaseDate = "2023-06-01",
+            popularity = 7.5,
+            posterUrl = "example_poster.jpg",
+            isFavorite = true
+        )
+
+        val entityMovie = mapper.toEntity(domainMovie)
+        coEvery { movieDao.deleteMovie(entityMovie) } just Runs
+
+        movieRepository.deleteMovieFromFavorites(domainMovie)
+
+        coVerify { movieDao.deleteMovie(entityMovie) }
+    }
 
 }

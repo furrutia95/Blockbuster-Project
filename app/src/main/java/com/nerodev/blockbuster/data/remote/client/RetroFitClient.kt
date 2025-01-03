@@ -20,7 +20,8 @@ object RetroFitClient {
             )
             requestBuilder.header(
                 "Authorization",
-                "Bearer $TOKEN")
+                "Bearer $TOKEN"
+            )
             chain.proceed(requestBuilder.build())
         }
         val okHttpClient = client.build()

@@ -16,15 +16,16 @@ class MovieUiMapper {
             originalTitle = domain.originalTitle,
             adult = domain.adult,
             backdropUrl = domain.backdropUrl,
-            )
+            isFavorite = domain.isFavorite
+        )
 
-    fun toDomain(uiModel:MovieUiModel): Movie =
+    fun toDomain(uiModel: MovieUiModel): Movie =
         Movie(
             id = uiModel.id,
             title = uiModel.title,
             overview = uiModel.overview,
             releaseDate = uiModel.releaseDate,
-            popularity = uiModel.popularity?:0.0,
+            popularity = uiModel.popularity ?: 0.0,
             posterUrl = uiModel.posterUrl,
             originalTitle = uiModel.originalTitle,
             adult = uiModel.adult,
@@ -33,7 +34,6 @@ class MovieUiMapper {
 
     fun toUiModelList(domains: List<Movie>): List<MovieUiModel> =
         domains.map { toUiModel(it) }
-
 
 
     fun toDomainList(uiModels: List<MovieUiModel>): List<Movie> =

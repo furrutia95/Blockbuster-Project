@@ -1,4 +1,4 @@
-package com.nerodev.blockbuster.presentation.ui
+package com.nerodev.blockbuster.presentation.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable

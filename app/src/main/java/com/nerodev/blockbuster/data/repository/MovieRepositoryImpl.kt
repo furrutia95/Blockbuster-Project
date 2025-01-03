@@ -1,9 +1,7 @@
 package com.nerodev.blockbuster.data.repository
 
 import android.util.Log
-import androidx.room.Room
 import com.nerodev.blockbuster.data.local.dao.MovieDao
-import com.nerodev.blockbuster.data.local.datasource.MovieDatabase
 import com.nerodev.blockbuster.data.local.mapper.MovieMapperLocal
 import com.nerodev.blockbuster.data.remote.client.RetroFitClient
 import com.nerodev.blockbuster.data.remote.mapper.MovieMapperRemote
@@ -20,8 +18,7 @@ import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     val movieDao: MovieDao
-): MovieRepository
-{
+) : MovieRepository {
     private val api = RetroFitClient.movieApi
     private val mapperRemote = MovieMapperRemote()
     private val mapperLocal = MovieMapperLocal()
@@ -30,8 +27,10 @@ class MovieRepositoryImpl @Inject constructor(
     override fun getPopularMovies(page: Int): Flow<List<Movie>> = flow {
         val response = api.getPopularMovies(page = page)
         emit(response.movies.map { mapperRemote.toDomain(it) })
-    }.catch { e ->
-        throw e
+    }.catch {
+        getFavoriteMovies().collect { favoriteMovies ->
+            emit(favoriteMovies)
+        }
     }.flowOn(dispatcher)
 
     override suspend fun getSearchMovies(page: Int, query: String): Flow<List<Movie>> = flow {
@@ -50,10 +49,33 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getMovieDetails(id: Int): Movie {
+        try {
+            val localMovie = movieDao.getMovieById(id)
+            return if (localMovie != null) {
+                mapperLocal.toDomain(localMovie)
+            } else {
+                val remoteMovie = api.getMovieDetails(id)
+                mapperRemote.toDomain(remoteMovie)
+            }
+        } catch (e: Exception) {
+            Log.e("MovieRepositoryImplLocal", e.message.toString())
+            throw e
+        }
+    }
+
     override suspend fun addMovieToFavorites(movie: Movie) {
         try {
             movieDao.insertMovie(mapperLocal.toEntity(movie))
-        }catch (e:Exception){
+        } catch (e: Exception) {
+            Log.e("MovieRepositoryImplLocal", e.message.toString())
+        }
+    }
+
+    override suspend fun deleteMovieFromFavorites(movie: Movie) {
+        try {
+            movieDao.deleteMovie(mapperLocal.toEntity(movie))
+        } catch (e: Exception) {
             Log.e("MovieRepositoryImplLocal", e.message.toString())
         }
     }

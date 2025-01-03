@@ -15,6 +15,7 @@ class MovieMapperLocal {
             originalTitle = entity.originalTitle,
             adult = entity.adult,
             backdropUrl = entity.backdropPath,
+            isFavorite = true
         )
     }
 
@@ -25,10 +26,10 @@ class MovieMapperLocal {
             overview = domain.overview,
             releaseDate = domain.releaseDate,
             popularity = domain.popularity,
-            posterUrl = domain.posterUrl?: "",
+            posterUrl = domain.posterUrl ?: "",
             originalTitle = domain.originalTitle,
-            adult = domain.adult?: false,
-            backdropPath = domain.backdropUrl?:"",
+            adult = domain.adult ?: false,
+            backdropPath = domain.backdropUrl ?: "",
         )
     }
 

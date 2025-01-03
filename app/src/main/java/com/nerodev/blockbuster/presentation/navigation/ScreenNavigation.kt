@@ -7,5 +7,8 @@ sealed class ScreenNavigation(val route:String) {
         fun createRoute(id: Int) = "movie/$id"
     }
     data object FavoritesMovies: ScreenNavigation("favorites")
+    data object SearchMovies: ScreenNavigation("search/{query}"){
+        fun createRoute(query: String) = "search/$query"
+    }
 
 }

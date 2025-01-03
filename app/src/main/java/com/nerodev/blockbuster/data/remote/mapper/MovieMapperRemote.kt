@@ -26,5 +26,4 @@ class MovieMapperRemote {
         dtos.map { toDomain(it) }
 
 
-
 }
